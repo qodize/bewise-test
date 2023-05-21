@@ -1,0 +1,10 @@
+fastapi
+sqlalchemy[asyncio]
+uvicorn
+dependency_injector
+pytest
+aiohttp
+https
+anyio
+trio
+asyncpg
