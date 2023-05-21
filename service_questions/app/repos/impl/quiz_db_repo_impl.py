@@ -17,7 +17,7 @@ class QuizDatabaseRepo(QuizDatabaseRepoABC):
     def __init__(self, session_factory: typing.Callable[..., contextlib.AbstractAsyncContextManager[AsyncSession]]):
         self.session_factory = session_factory
 
-    async def insert_one(self, create_question: CreateQuestionDto) -> None:
+    async def insert_one(self, create_question: CreateQuestionDto) -> QuestionDto:
         async with self.session_factory() as session:
             question = QuestionModel(
                 id=create_question.id,
@@ -30,6 +30,7 @@ class QuizDatabaseRepo(QuizDatabaseRepoABC):
                 await session.commit()
             except sqlalchemy.exc.IntegrityError as e:
                 raise AlreadyExistsError()
+        return await self.get_one(question_id=question.id)
 
     async def get_one(self, question_id: int) -> QuestionDto:
         async with self.session_factory() as session:

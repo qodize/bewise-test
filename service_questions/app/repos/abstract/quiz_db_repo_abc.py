@@ -6,7 +6,7 @@ from service_questions.app.dto.question_dto import QuestionDto
 
 class QuizDatabaseRepoABC(abc.ABC):
     @abc.abstractmethod
-    async def insert_one(self, create_question: CreateQuestionDto) -> None:
+    async def insert_one(self, create_question: CreateQuestionDto) -> QuestionDto:
         ...
 
     @abc.abstractmethod
