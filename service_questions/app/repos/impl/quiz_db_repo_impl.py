@@ -23,14 +23,14 @@ class QuizDatabaseRepo(QuizDatabaseRepoABC):
                 id=create_question.id,
                 question=create_question.question,
                 answer=create_question.answer,
-                created_at=create_question.created_at
+                created_at=create_question.created_at.replace(tzinfo=None)
             )
             session.add(question)
             try:
                 await session.commit()
             except sqlalchemy.exc.IntegrityError as e:
                 raise AlreadyExistsError()
-        return await self.get_one(question_id=question.id)
+        return await self.get_one(question_id=create_question.id)
 
     async def get_one(self, question_id: int) -> QuestionDto:
         async with self.session_factory() as session:
