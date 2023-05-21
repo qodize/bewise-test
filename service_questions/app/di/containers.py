@@ -1,6 +1,7 @@
 import os
 
 from dependency_injector import containers, providers
+from dependency_injector.containers import DeclarativeContainer
 
 from service_questions.app.db.database import Database
 from service_questions.app.repos.impl.quiz_db_repo_impl import QuizDatabaseRepo
@@ -8,8 +9,8 @@ from service_questions.app.repos.impl.quiz_find_repo_impl import JServiceQuizFin
 from service_questions.app.services.impl.quiz_service_impl import QuizService
 
 
-class Container:
-    wiring_config = containers.WiringConfiguration(modules=["service_questions.app.routers"])
+class Container(DeclarativeContainer):
+    wiring_config = containers.WiringConfiguration(packages=["service_questions.app.routers"])
 
     db = providers.Singleton(
         Database,
